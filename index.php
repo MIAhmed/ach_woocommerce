@@ -182,7 +182,40 @@ class WC_Gateway_Alphapaypal extends WC_Payment_Gateway {
 						
 		$form_data = $this->get_alpha_args($order, $uniqid, 0);
 		$digest = base64_encode(sha1(implode("", array_merge($form_data, array('secret' => $this->Secret))), true));
+$aa= str_replace('\"',"",$_POST['data']);
+		$a=explode(",",$aa);
+		
+		foreach($a as $au){
+			$uu=str_replace(":",",",$au);
+			$u=explode(",",$uu);
+			//print_r($u);
+		if($u[0] == 'MerchantTxnID' || $u[0] == 'Status'){
+			$aaa[$u[0]] = $u[1];
+			}
+			}
+			//echo str_replace('002','',$aaa['MerchantTxnID']);
+			if($aaa['MerchantTxnID'] != '' && $aaa['Status'] == 0){
+				global $woocommerce;
+				
+				global $wpdb;
+				$wpdb->update( 
+	'wp_posts', 
+	array( 
+		'post_status' => 'wc-completed'	// string
+	), 
+	array( 'ID' => str_replace('002','',$aaa['MerchantTxnID']) ), 
+	array( 
+		'%s'	// value1
+	), 
+	array( '%d' ) 
+);
 
+     $woocommerce->cart->empty_cart();
+WC()->mailer()->emails['WC_Email_Customer_Processing_Order']->trigger($order_id);
+WC()->mailer()->emails['WC_Email_New_Order']->trigger($order_id);
+    $url=site_url(); 
+      wp_redirect($this->get_return_url( $order ));
+	}
 		$html_form_fields = array(); ?>
 
 		 <script type="text/javascript">
@@ -212,7 +245,7 @@ $action = 'https://hubuat.alphacommercehub.com.au/pp/'.$this->get_option('url');
 					<input type="hidden" name="Country" value="<?php echo 'AUSTRALIA'; ?>">
 					<input type="hidden" name="Currency" value="<?php echo $order->get_currency(); ?>">
 					
-					<input type="hidden" name="MerchantTxnID" value="<?php echo '00'.$order_id; ?>">
+					<input type="hidden" name="MerchantTxnID" value="<?php echo $order_id.'002'; ?>">
 					<input type="hidden" name="OrderDetails[0].ItemAmount" value="<?php echo wc_format_decimal(($order->get_total()* 1000), 2, true); ?>">	
 					<input type="hidden" name="OrderDetails[0].ItemName" value="<?php echo $product_name; ?>">	
 					<input type="hidden" name="OrderDetails[0].ItemDescription" value="<?php echo $product_name; ?>">	
