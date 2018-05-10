@@ -206,7 +206,7 @@ $aa= str_replace('\"',"",$_POST['data']);
 			$aaa[$u[0]] = $u[1];
 			}
 			}
-			//echo $aaa['MerchantTxnID'];
+			//echo str_replace('002','',$aaa['MerchantTxnID']);
 			if($aaa['MerchantTxnID'] != '' && $aaa['Status'] == 0){
 				global $woocommerce;
 				
@@ -216,7 +216,7 @@ $aa= str_replace('\"',"",$_POST['data']);
 	array( 
 		'post_status' => 'wc-completed'	// string
 	), 
-	array( 'ID' => $aaa['MerchantTxnID'] ), 
+	array( 'ID' => str_replace('002','',$aaa['MerchantTxnID']) ), 
 	array( 
 		'%s'	// value1
 	), 
@@ -234,13 +234,13 @@ WC()->mailer()->emails['WC_Email_New_Order']->trigger($order_id);
 
 		<script type="text/javascript">
 
-		jQuery(document).ready(function(){
+		 jQuery(document).ready(function(){
   
 		    var alphabank_payment_form = document.getElementById('shopform1');
 			alphabank_payment_form.style.visibility="hidden";
 			alphabank_payment_form.submit();
 
-		});
+		}); 
 
 
 		</script>
@@ -276,7 +276,7 @@ $action = 'https://hubuat.alphacommercehub.com.au/pp/'.$this->get_option('url');
 					<input type="hidden" name="Country" value="<?php echo 'AUSTRALIA'; ?>">
 					<input type="hidden" name="Currency" value="<?php echo $order->get_currency(); ?>">
 					
-					<input type="hidden" name="MerchantTxnID" value="<?php echo $order_id; ?>">
+					<input type="hidden" name="MerchantTxnID" value="<?php echo $order_id.'002'; ?>">
 					<input type="hidden" name="OrderDetails[0].ItemAmount" value="<?php echo wc_format_decimal(($order->get_total()* 1000), 2, true); ?>">	
 					<input type="hidden" name="OrderDetails[0].ItemName" value="<?php echo $product_name; ?>">	
 					<input type="hidden" name="OrderDetails[0].ItemDescription" value="<?php echo $product_name; ?>">	
