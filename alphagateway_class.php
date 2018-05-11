@@ -94,6 +94,7 @@ class WC_Gateway_Alphacard extends WC_Payment_Gateway {
 				'description' => __( 'Hosted Payment Page URL that the customer will use for UAT or Production.', 'woocommerce' ),
 				'default'     => __( '', 'woocommerce' ),
 				'desc_tip'    => true,
+'custom_attributes' => array( 'required' => 'required' ),
 			),
 			'UserID' => array(
 				'title'       => __( 'User ID', 'woocommerce' ),
@@ -138,6 +139,7 @@ class WC_Gateway_Alphacard extends WC_Payment_Gateway {
                 'type' => 'text',
                 'description' => __('Enter Your Alpha Bank Merchant ID', 'woocommerce'),
                 'default' => '',
+'custom_attributes' => array( 'required' => 'required' ),
                 'desc_tip' => true
 			),
 			'min_order' => array(
