@@ -246,13 +246,13 @@ $action = 'https://hubuat.alphacommercehub.com.au/pp/'.$this->get_option('url');
                     <?php if($this->get_option( '3dSecure') == 'yes') { $testmode = 'N'; } else { $testmode = 'Y'; }  ?>
 					<input type="hidden" name="3DSecureBypass" maxlength="1" value="<?php echo $testmode; ?>">
 					<input type="hidden" name="Country" value="<?php echo 'AUSTRALIA'; ?>">
-					<input type="hidden" name="Currency" value="<?php echo $order->get_currency(); ?>">
+					<input type="hidden" name="Currency" value="<?php echo 'AUD'; ?>">
 					
 					<input type="hidden" name="MerchantTxnID" value="<?php echo $order_id.'002'; ?>">
-					<input type="hidden" name="OrderDetails[0].ItemAmount" value="<?php echo wc_format_decimal(($order->get_total()* 1000), 2, true); ?>">	
+					<!-- <input type="hidden" name="OrderDetails[0].ItemAmount" value="<?php echo wc_format_decimal(($order->get_total()* 1000), 2, true); ?>">	
 					<input type="hidden" name="OrderDetails[0].ItemName" value="<?php echo $product_name; ?>">	
 					<input type="hidden" name="OrderDetails[0].ItemDescription" value="<?php echo $product_name; ?>">	
-					<input type="hidden" name="OrderDetails[0].ItemQuantity" value="<?php echo $quantity; ?>">
+					<input type="hidden" name="OrderDetails[0].ItemQuantity" value="<?php echo $quantity; ?>">-->
 					<input type="hidden" name="UserId" value="<?php echo $this->get_option('UserID'); ?>">	
 					<input type="hidden" name="SuccessURL" value="<?php echo $order->get_checkout_payment_url( true ); ?>">	
 	                                <input type="hidden" name="CancelURL" value="<?php echo $order->get_cancel_order_url(); ?>">
