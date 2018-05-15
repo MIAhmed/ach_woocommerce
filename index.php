@@ -155,7 +155,7 @@ class WC_Gateway_Alphapaypal extends WC_Payment_Gateway {
 
 	}
 
- protected function get_alpha_args( $order, $uniqid, $installments ) {
+ /* protected function get_alpha_args( $order, $uniqid, $installments ) {
 		$return = WC()->api_request_url( 'WC_Gateway_Alphacard' );
 		$address = array(
 				'address_1'     => ( WC()->version >= '3.0.0' ) ? $order->get_billing_address_1() : $order->billing_address_1,
@@ -173,7 +173,7 @@ class WC_Gateway_Alphapaypal extends WC_Payment_Gateway {
 				
 		return apply_filters( 'woocommerce_alpha_args', $args , $order );
 	} 
-
+*/
 
     /**
 	* Output for the order received page.
@@ -183,8 +183,9 @@ class WC_Gateway_Alphapaypal extends WC_Payment_Gateway {
 		$order = wc_get_order( $order_id );
 		$uniqid = uniqid();
 						
-		$form_data = $this->get_alpha_args($order, $uniqid, 0);
-		$digest = base64_encode(sha1(implode("", array_merge($form_data, array('secret' => $this->Secret))), true));
+		/* $form_data = $this->get_alpha_args($order, $uniqid, 0);*/
+		/* $digest = base64_encode(sha1(implode("", array_merge($form_data, array('secret' => $this->Secret))), true)); */
+if($_POST){
 $aa= str_replace('\"',"",$_POST['data']);
 		$a=explode(",",$aa);
 		
@@ -219,9 +220,10 @@ WC()->mailer()->emails['WC_Email_New_Order']->trigger($order_id);
     $url=site_url(); 
       wp_redirect($this->get_return_url( $order ));
 	}
-		$html_form_fields = array(); ?>
+}
+		//$html_form_fields = array(); ?>
 
-		 <script type="text/javascript">
+		<script type="text/javascript">
 		  jQuery(document).ready(function(){
   
 		    var alphabank_payment_form = document.getElementById('shopform1');
@@ -229,7 +231,7 @@ WC()->mailer()->emails['WC_Email_New_Order']->trigger($order_id);
 			alphabank_payment_form.submit();
 
 		}); 
-		</script> 
+		</script>
 		<?php $total = wc_format_decimal($order->get_total(), 2, true) * 1000 ; 
  $mode=$this->get_option( 'mode');
 if($mode == 1){
@@ -249,10 +251,10 @@ $action = 'https://hubuat.alphacommercehub.com.au/pp/'.$this->get_option('url');
 					<input type="hidden" name="Currency" value="<?php echo 'AUD'; ?>">
 					
 					<input type="hidden" name="MerchantTxnID" value="<?php echo $order_id.'002'; ?>">
-					<!-- <input type="hidden" name="OrderDetails[0].ItemAmount" value="<?php echo wc_format_decimal(($order->get_total()* 1000), 2, true); ?>">	
+					<!--<input type="hidden" name="OrderDetails[0].ItemAmount" value="<?php echo wc_format_decimal(($order->get_total()* 1000), 2, true); ?>">	
 					<input type="hidden" name="OrderDetails[0].ItemName" value="<?php echo $product_name; ?>">	
 					<input type="hidden" name="OrderDetails[0].ItemDescription" value="<?php echo $product_name; ?>">	
-					<input type="hidden" name="OrderDetails[0].ItemQuantity" value="<?php echo $quantity; ?>">-->
+					<input type="hidden" name="OrderDetails[0].ItemQuantity" value="<?php echo $quantity; ?>"> -->
 					<input type="hidden" name="UserId" value="<?php echo $this->get_option('UserID'); ?>">	
 					<input type="hidden" name="SuccessURL" value="<?php echo $order->get_checkout_payment_url( true ); ?>">	
 	                                <input type="hidden" name="CancelURL" value="<?php echo $order->get_cancel_order_url(); ?>">
@@ -263,7 +265,7 @@ $action = 'https://hubuat.alphacommercehub.com.au/pp/'.$this->get_option('url');
 		<?php
 		
 		
-		$order->update_status( 'pending', __( 'Sent request to Alpha bank with orderID: ' . $form_data['orderid'] , 'woocommerce' ) );
+		$order->update_status( 'pending', __( 'Sent request to Alpha bank with orderID: ' . $order_id, 'woocommerce' ) );
 	}
 
 	/**
