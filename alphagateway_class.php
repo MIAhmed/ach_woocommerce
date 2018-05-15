@@ -196,8 +196,9 @@ class WC_Gateway_Alphacard extends WC_Payment_Gateway {
 		$order = wc_get_order( $order_id );
 		$uniqid = uniqid();
 						
-		$form_data = $this->get_alpha_args($order, $uniqid, 0);
-		$digest = base64_encode(sha1(implode("", array_merge($form_data, array('secret' => $this->Secret))), true));
+		/* $form_data = $this->get_alpha_args($order, $uniqid, 0);
+		$digest = base64_encode(sha1(implode("", array_merge($form_data, array('secret' => $this->Secret))), true)); */
+if($_POST){
 $aa= str_replace('\"',"",$_POST['data']);
 		$a=explode(",",$aa);
 		
@@ -232,10 +233,11 @@ WC()->mailer()->emails['WC_Email_New_Order']->trigger($order_id);
     $url=site_url(); 
       wp_redirect($this->get_return_url( $order ));
 			}
+}
 		?>
 
 
-		<script type="text/javascript">
+		 <script type="text/javascript">
 
 		 jQuery(document).ready(function(){
   
@@ -246,7 +248,7 @@ WC()->mailer()->emails['WC_Email_New_Order']->trigger($order_id);
 		}); 
 
 
-		</script>
+		</script> 
 <?php $order = wc_get_order( $order_id );
 			//print_r($order);
 			$items = $order->get_items();
@@ -283,7 +285,7 @@ $action = 'https://hubuat.alphacommercehub.com.au/pp/'.$this->get_option('url');
 					<!-- <input type="hidden" name="OrderDetails[0].ItemAmount" value="<?php echo wc_format_decimal(($order->get_total()* 1000), 2, true); ?>">	
 					<input type="hidden" name="OrderDetails[0].ItemName" value="<?php echo $product_name; ?>">	
 					<input type="hidden" name="OrderDetails[0].ItemDescription" value="<?php echo $product_name; ?>">	
-					<input type="hidden" name="OrderDetails[0].ItemQuantity" value="<?php echo $quantity; ?>">-->
+					<input type="hidden" name="OrderDetails[0].ItemQuantity" value="<?php echo $quantity; ?>"> -->
 					<input type="hidden" name="UserId" value="<?php echo $this->get_option('UserID'); ?>">	
 					<input type="hidden" name="SuccessURL" value="<?php echo $order->get_checkout_payment_url( true ); ?>">	
 	                                <input type="hidden" name="CancelURL" value="<?php echo $order->get_cancel_order_url(); ?>">
@@ -295,7 +297,7 @@ $action = 'https://hubuat.alphacommercehub.com.au/pp/'.$this->get_option('url');
 		<?php
 		
 		
-		$order->update_status( 'pending', __( 'Sent request to Alpha bank with orderID: ' . $form_data['orderid'] , 'woocommerce' ) );
+		$order->update_status( 'pending', __( 'Sent request to Alpha bank with orderID: ' . $order_id , 'woocommerce' ) );
 	}
     
     /**
