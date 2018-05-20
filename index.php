@@ -43,7 +43,7 @@ class WC_Gateway_Alphapaypal extends WC_Payment_Gateway {
 		$this->id                 = 'alphapaypal';
 		$this->has_fields         = false;
 		$this->order_button_text  = __( 'Proceed to PayPal', 'woocommerce' );
-		$this->method_title       = __( 'Paypal (Alpha Commerce Hub)', 'woocommerce' );
+		$this->method_title       = __( 'PayPal (Alpha Commerce Hub)', 'woocommerce' );
 		$this->method_description = sprintf( __( 'PayPal Standard sends customers to PayPal to enter their payment information. PayPal IPN requires fsockopen/cURL support to update order statuses after payment. Check the <a href="%s">system status</a> page for more details.', 'woocommerce' ), admin_url( 'admin.php?page=wc-status' ) );
 		$this->supports           = array(
 			'products',
@@ -93,7 +93,7 @@ class WC_Gateway_Alphapaypal extends WC_Payment_Gateway {
 		'title'       => __( 'Title', 'woocommerce' ),
 		'type'        => 'text',
 		'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce' ),
-		'default'     => __( 'Paypal (Alpha Commerce Hub)', 'woocommerce' ),
+		'default'     => __( 'PayPal (Alpha Commerce Hub)', 'woocommerce' ),
 		'desc_tip'    => true,
 	),
 	'description' => array(
